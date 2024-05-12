@@ -15,12 +15,10 @@ func main() {
 	defer file.Close()
 
 	var (
-		in  = bufio.NewReader(file)
-		out = bufio.NewWriter(os.Stdout)
+		in = bufio.NewReader(file)
 	)
-	defer out.Flush()
 
-	if err := internal.Run(in, out); err != nil {
+	if err := internal.Run(in); err != nil {
 		log.Fatal(err)
 	}
 }

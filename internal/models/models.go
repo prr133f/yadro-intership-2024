@@ -22,3 +22,9 @@ type Data struct {
 	State  State
 	Events []Event
 }
+
+type Table struct {
+	ID         int
+	Margin     int
+	TimeInWork time.Time
+}
