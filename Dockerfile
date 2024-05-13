@@ -12,7 +12,7 @@ FROM alpine:latest
 WORKDIR /app
 
 COPY --from=builder /build/main /app
-COPY --from=builder /build/*.txt /app
+COPY --from=builder /build/static /app
 
 ENTRYPOINT [ "/app/main" ]
 CMD [ "" ]
