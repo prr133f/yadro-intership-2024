@@ -25,7 +25,7 @@ type Data struct {
 
 type Table struct {
 	Margin     int
-	TimeInWork time.Time
+	TimeInWork time.Duration
 }
 
 type TableMap struct {

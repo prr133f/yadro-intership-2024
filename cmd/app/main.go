@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"slices"
 	"yadro-intership/internal"
+	"yadro-intership/pkg/utils"
 )
 
 func main() {
@@ -24,8 +26,13 @@ func main() {
 	if tables, err := internal.Run(in, out); err != nil {
 		log.Fatal(err)
 	} else {
-		for k, v := range tables.Map {
-			fmt.Fprintln(out, k, v.Margin, v.TimeInWork)
+		keys := make([]int, 0, len(tables.Map))
+		for k := range tables.Map {
+			keys = append(keys, k)
+		}
+		slices.Sort(keys)
+		for _, k := range keys {
+			fmt.Fprintln(out, k, tables.Map[k].Margin, utils.DurationToFormatString(tables.Map[k].TimeInWork))
 		}
 	}
 }
