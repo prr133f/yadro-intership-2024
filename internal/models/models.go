@@ -24,7 +24,10 @@ type Data struct {
 }
 
 type Table struct {
-	ID         int
 	Margin     int
 	TimeInWork time.Time
+}
+
+type TableMap struct {
+	Map map[int]Table
 }

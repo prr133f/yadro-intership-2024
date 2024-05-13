@@ -2,23 +2,30 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"yadro-intership/internal"
 )
 
 func main() {
-	file, err := os.OpenFile(os.Args[1], os.O_RDONLY, 0666)
+	file, err := os.Open(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 
 	var (
-		in = bufio.NewReader(file)
+		in  = bufio.NewReader(file)
+		out = bufio.NewWriter(os.Stdout)
 	)
+	defer out.Flush()
 
-	if err := internal.Run(in); err != nil {
+	if tables, err := internal.Run(in, out); err != nil {
 		log.Fatal(err)
+	} else {
+		for k, v := range tables.Map {
+			fmt.Fprintln(out, k, v.Margin, v.TimeInWork)
+		}
 	}
 }
