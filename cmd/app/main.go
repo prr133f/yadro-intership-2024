@@ -2,13 +2,16 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
+	"slices"
 	"yadro-intership/internal"
+	"yadro-intership/pkg/utils"
 )
 
 func main() {
-	file, err := os.OpenFile(os.Args[1], os.O_RDONLY, 0666)
+	file, err := os.Open(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -20,7 +23,16 @@ func main() {
 	)
 	defer out.Flush()
 
-	if err := internal.Run(in, out); err != nil {
+	if tables, err := internal.Run(in, out); err != nil {
 		log.Fatal(err)
+	} else {
+		keys := make([]int, 0, len(tables.Map))
+		for k := range tables.Map {
+			keys = append(keys, k)
+		}
+		slices.Sort(keys)
+		for _, k := range keys {
+			fmt.Fprintln(out, k, tables.Map[k].Margin, utils.DurationToFormatString(tables.Map[k].TimeInWork))
+		}
 	}
 }
